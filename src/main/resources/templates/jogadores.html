@@ -15,22 +15,22 @@
 	<div class="container">
 		<div class="row valign-wrapper">
 			<div class="col s6">
-				<h3>Gerenciador de Jogadores</h3>
+				<h4>Gerenciador de Jogadores</h4>
 			</div>
 			<div class="col s6">
-				<a href="/times" class="valign btn-large waves-light teal right">Gerenciar Times</a>
+				<a href="/times/" class="valign btn-large waves-light teal right">Gerenciar Times</a>
 			</div>
 		</div>
 		
 		<div class="row">
-			<form>
+			<form method="POST" action="/jogadores/salvar">
 				<div class="input-field col s4">
-					<input placeholder="Nome do Jogador" id="nome" type="text" class="validate">
-					<label for="first_name">Nome do time</label>
+					<input placeholder="Nome do Jogador" id="nome" type="text" name="nomeJogador" class="validate">
+					<label for="first_name">Nome do jogador</label>
 				</div>
 				<div class="input-field col s4">
-					<input placeholder="Idade do Jogador" id="idade" type="text" class="validate">
-					<label for="first_name">Nome do time</label>
+					<input placeholder="Idade do Jogador" id="idade" type="text" name="idadeJogador" class="validate">
+					<label for="first_name">Idade do jogador</label>
 				</div>
 				<div class="col s4">
 					<button class="btn waves=effect waves-light" type="submit" name="action">Adicionar Jogador</button>
@@ -50,11 +50,13 @@
 				</thead>
 				
 				<tbody>
-					<tr>
-						<td>Frodo Bolseiro</td>
-						<td>Hobbits Society</td>
+					<tr th:each="jogador : ${jogadores}">
+						<td th:text="${jogador.nome}"></td>
+						<td th:if="${jogador.time}" th:text="${jogador.time}"></td>
+						<td th:unless="${jogador.time}">Sem time</td>
+						
 						<td>
-							<a class="waves-effect waves-teal btn-flat" href="#">X</a>
+							<a class="waves-effect waves-teal btn-flat" th:href="@{${'/jogadores/excluir/'+jogador.id}}">X</a>
 						</td>
 					</tr>
 				</tbody>

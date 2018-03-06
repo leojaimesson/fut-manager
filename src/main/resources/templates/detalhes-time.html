@@ -15,7 +15,7 @@
 	<div class="container">
 		<div class="row valign-wrapper">
 			<div class="col s6">
-				<h3>Detalhes de: Nome do Time</h3>
+				<h3>Detalhes de <span th:text="${time.nome}"></span></h3>
 			</div>
 			<div class="col s6">
 				<a href="/times" class="valign btn-large waves-light teal right">Gerenciar Times</a>
@@ -24,22 +24,29 @@
 		</div>
 		
 		<div class="row">
-			<form>
-				<div class="input-field col s8">
-					
-					<select class="browser-default">
-						<option value="" disabled="disabled" selected="selected">Escolha um jogador</option>
-						<option value="1">Jogador 1</option>
-						<option value="2">Jogador 2</option>
-						<option value="3">Jogador 3</option>
-						<option value="4">Jogador 4</option>
-					</select>
-				</div>
-				<div class="col s4">
-					<button class="btn waves=effect waves-light" type="submit" name="action">Adicionar Jogador ao Time</button>
-				</div>
+			<form th:action="@{${'/times/'+time.id+'/adicionarjogador'}}" method="POST">
+			  <div class="col s8">
+			    <label>Escolha um jogador sem time</label>
+			    <select class="browser-default" name="jogadorSemTimeID">
+			      <option value="" disabled="disabled" selected="selected">Escolha um jogador</option>
+			      <option th:each="jogadorSemTime : ${jogadoresSemTime}" 
+			       th:value="${jogadorSemTime.id}" 
+			       th:text="${jogadorSemTime.nome}"></option>
+			    </select>
+			  </div>
+			  <div class="col s4">
+			    <button class="btn waves-effect waves-light" type="submit" name="action">Adicionar Jogador ao Time</button>
+			  </div>                    
 			</form>
+
 		</div>
+		
+		<div th:if="${erro}" class="row">
+		  <div class="chip red white-text">
+		    <span th:text="${erro}"></span>
+		  </div>
+		</div>
+				
 		
 		<div class="row">
 			<h5>Jogadores do Time</h5>
@@ -53,13 +60,12 @@
 				</thead>
 				
 				<tbody>
-					<tr>
-						<td>Frodo Bolseiro</td>
-						<td>27</td>
-						<td>
-							<a class="waves-effect waves-teal btn-flat" href="#">X</a>
-						</td>
-					</tr>
+					<tr th:each="jogador : ${time.jogadores}">
+					    <td th:text="${jogador.nome}"></td>
+					    <td th:text="${jogador.idade}"></td>
+					    <td><a class="waves-effect waves-teal btn-flat" th:href="@{${'/times/'+time.id+'/removerjogador/'+jogador.id}}">X</a></td>
+				    </tr>
+
 				</tbody>
 			</table>
 		</div>

@@ -22,6 +22,11 @@ public class Jogador {
 	public Jogador() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Jogador(String nome, Integer idade) {
+		this.setNome(nome);
+		this.setIdade(idade);
+	}
 
 	public Integer getId() {
 		return id;
