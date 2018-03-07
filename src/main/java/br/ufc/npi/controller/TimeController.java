@@ -65,11 +65,6 @@ public class TimeController {
 			model.addObject("erro", erro);
 		}
 		return model;
-
-		  
-//		timeService.addJogadorAoTime(idTime, jogadorSemTimeID);
-		
-//		return "redirect:/times/"+idTime;
 	}
 	
 	@RequestMapping(path="/{idTime}/removerjogador/{idJogador}")
@@ -81,7 +76,11 @@ public class TimeController {
 		return "redirect:/times/"+idTime;
 	}
 	
-	
+	@RequestMapping(path="/excluir/{idTime}")
+	public String exluirTime(@PathVariable ("idTime") Integer idTime) {
+		timeService.excluirTime(idTime);
+		return "redirect:/times/";
+	}
 	
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,12 @@ public class JogadorController {
 	@RequestMapping(path="/salvar", method=RequestMethod.POST)
 	public String salvarJogador(@RequestParam String nomeJogador,  @RequestParam Integer idadeJogador) {
 		service.salvarJogador(nomeJogador, idadeJogador);
+		return "redirect:/jogadores/";
+	}
+	
+	@RequestMapping(path="/excluir/{id}")
+	public String excluirJogador(@PathVariable("id") Integer idJogador) {
+		service.delJogador(idJogador);
 		return "redirect:/jogadores/";
 	}
 }

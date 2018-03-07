@@ -1,43 +1,57 @@
 <!DOCTYPE html>
-<html 
-    xmlns="http://www.w3.org/1999/xhtml" 
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-	<link href="/webjars/materializecss/0.97.7/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="/webjars/materialize/0.100.2/dist/css/materialize.min.css"
+	type="text/css" rel="stylesheet" media="screen,projection" />
 
-	<title>FutManager</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+
+<link href="/css/style.css" type="text/css" rel="stylesheet"
+	media="screen,projection" />
+
+
+<title>FutManager</title>
 </head>
 
 <body>
-	<div class="container">
-		<div class="row valign-wrapper">
-			<div class="col s6">
-				<h4>Gerenciador de Jogadores</h4>
-			</div>
-			<div class="col s6">
-				<a href="/times/" class="valign btn-large waves-light teal right">Gerenciar Times</a>
-			</div>
+	<nav class="teal">
+		<div class="nav-wrapper container">
+			<ul class="left hide-on-med-and-down">
+				<li><a href="/times/">Times</a></li>
+				<li class="active"><a href="/jogadores/">Jogadores</a></li>
+			</ul>
 		</div>
-		
-		<div class="row">
+	</nav>
+
+	<div class="row grey lighten-2 panel-heading title-heading">
+		<h4 class="center-align">Gerenciador de Jogadores</h4>
+	</div>
+	<div class="container">
+
+		<div class="row panel-heading">
 			<form method="POST" action="/jogadores/salvar">
-				<div class="input-field col s4">
-					<input placeholder="Nome do Jogador" id="nome" type="text" name="nomeJogador" class="validate">
-					<label for="first_name">Nome do jogador</label>
+				<div class="row">
+					<div class="input-field col s6">
+						<input placeholder="Nome do Jogador" id="nome" type="text"
+							name="nomeJogador" class="validate"> <label
+							for="first_name">Nome do jogador</label>
+					</div>
+					<div class="input-field col s6">
+						<input placeholder="Idade do Jogador" id="idade" type="text"
+							name="idadeJogador" class="validate"> <label
+							for="first_name">Idade do jogador</label>
+					</div>
 				</div>
-				<div class="input-field col s4">
-					<input placeholder="Idade do Jogador" id="idade" type="text" name="idadeJogador" class="validate">
-					<label for="first_name">Idade do jogador</label>
-				</div>
-				<div class="col s4">
-					<button class="btn waves=effect waves-light" type="submit" name="action">Adicionar Jogador</button>
-				</div>
+
+				<button class="btn waves=effect waves-light" type="submit"
+					name="action">Adicionar Jogador</button>
 			</form>
 		</div>
-		
+
 		<div class="row">
 			<h5>Times Cadastrados</h5>
 			<table class="striped">
@@ -45,29 +59,50 @@
 					<tr>
 						<th>Nome</th>
 						<th>Time a qual pertence</th>
-						<th>Excluir Time</th>
+						<th>Excluir Jogador</th>
 					</tr>
 				</thead>
-				
+
 				<tbody>
 					<tr th:each="jogador : ${jogadores}">
 						<td th:text="${jogador.nome}"></td>
-						<td th:if="${jogador.time}" th:text="${jogador.time}"></td>
+						<td th:if="${jogador.time}" th:text="${jogador.time.nome}"></td>
 						<td th:unless="${jogador.time}">Sem time</td>
-						
+
 						<td>
-							<a class="waves-effect waves-teal btn-flat" th:href="@{${'/jogadores/excluir/'+jogador.id}}">X</a>
+							<!-- Modal Trigger --> <a
+							class="waves-effect waves-light btn modal-trigger" href="#modal1"
+							target> <i class="large material-icons delete">delete</i>
+						</a> <!-- Modal Structure -->
+
+							<div id="modal1" class="modal">
+								<div class="modal-content">
+									<h4>Modal Header</h4>
+									<p>deseja deleter o jogador <span th:text="${jogador.nome +' do sistema?'}"></span></p>
+								</div>
+								<div class="modal-footer">
+									<a th:href="@{${'/jogadores/excluir/'+jogador.id}}"
+										class="modal-action modal-close waves-effect waves-green btn-flat">continuar</a>
+									<a href="#"
+										class="modal-action modal-close waves-effect waves-green btn-flat">cancelar</a>
+
+								</div>
+							</div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-	
+
 	</div>
-	
-	
-	<script src="/webjars/jquery/2.2.4/jquery.js"></script>
-	<script src="/webjars/materializecss/0.97.7/js/materialize.js"></script>
-</body> 
+
+
+	<script src="/webjars/jquery/3.2.1/dist/jquery.min.js"></script>
+	<script src="/webjars/materialize/0.100.2/dist/js/materialize.min.js"></script>
+
+	<script>
+		$('.modal').modal();
+	</script>
+</body>
 
 </html>

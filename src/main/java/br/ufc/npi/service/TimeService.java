@@ -64,4 +64,8 @@ public class TimeService {
 		timeRepositorio.save(time);
 		jogadorRepositorio.save(jogador);
 	}
+	
+	public void excluirTime(Integer idTime) {
+		timeRepositorio.deleteById(idTime);
+	}
 }

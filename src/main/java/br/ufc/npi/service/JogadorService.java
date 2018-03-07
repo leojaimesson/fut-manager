@@ -13,6 +13,9 @@ public class JogadorService {
 	@Autowired
 	private JogadorRepositorio repositorio;
 	
+	@Autowired
+	private TimeService timeService;
+	
 	
 	public Jogador salvarJogador(String nome, Integer idade) {
 		Jogador jogador = new Jogador(nome, idade);
@@ -26,5 +29,13 @@ public class JogadorService {
 	
 	public List<Jogador> getJogadoresSemtTime() {
 		return repositorio.buscarJogadoresSemTime();
+	}
+	
+	public void delJogador(Integer idJogador) {
+		Jogador jogador = repositorio.findById(idJogador).get();
+		if(jogador.getTime() != null) {
+			timeService.delJogadorDoTime(jogador.getTime().getId(), idJogador);
+		}
+		repositorio.delete(jogador);
 	}
 }
