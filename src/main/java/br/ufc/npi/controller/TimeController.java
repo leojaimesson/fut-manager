@@ -3,8 +3,14 @@ package br.ufc.npi.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,11 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.ufc.npi.bean.Jogador;
 import br.ufc.npi.bean.Time;
+import br.ufc.npi.repositorio.TimeRepositorio;
 import br.ufc.npi.service.JogadorService;
 import br.ufc.npi.service.TimeService;
 
 @Controller
-@RequestMapping(path="/times/")
+@RequestMapping(path="/times")
 public class TimeController {
 	@Autowired
 	TimeService timeService;
@@ -24,7 +31,10 @@ public class TimeController {
 	@Autowired
 	JogadorService jogadorService;
 	
-	@RequestMapping(path="/")
+	@Autowired
+	TimeRepositorio tr;
+	
+	@GetMapping
 	public ModelAndView index () {
 		ModelAndView model = new ModelAndView("times");
 		List<Time> times = timeService.getTodosTimes();
@@ -33,7 +43,8 @@ public class TimeController {
 		return model;
 	}
 	
-	@RequestMapping(path="/{id}")
+	
+	@GetMapping("/detalhes/{id}")
 	public ModelAndView detalhesTime(@PathVariable("id") Integer id, @RequestParam(required=false) String erro) {
 		ModelAndView model = new ModelAndView("detalhes-time");
 		Time time = timeService.getTime(id);
@@ -46,19 +57,18 @@ public class TimeController {
 
 	}
 	
-	@RequestMapping(path="/salvar", method=RequestMethod.POST)
+	@PostMapping("/salvar")
 	public String salvarTime(@RequestParam String nomeTime) {
 		timeService.salvarTime(nomeTime);
 		
 		return "redirect:/times/";
 	}
 	
-	
-	@RequestMapping(path="/{idTime}/adicionarjogador", method=RequestMethod.POST)
+	@PostMapping("/{idTime}/adicionarjogador")
 	public ModelAndView adicionarJogadorAoTime(@PathVariable("idTime") Integer idTime,
 			@RequestParam Integer jogadorSemTimeID) {
 		
-		ModelAndView model = new ModelAndView("redirect:/times/"+idTime);
+		ModelAndView model = new ModelAndView("redirect:/times/detalhes/"+idTime);
 		boolean itsOk = timeService.addJogadorAoTime(idTime, jogadorSemTimeID);
 		if(itsOk==false){
 			String erro = "O time já está completo.";
@@ -67,16 +77,16 @@ public class TimeController {
 		return model;
 	}
 	
-	@RequestMapping(path="/{idTime}/removerjogador/{idJogador}")
+	@GetMapping("/{idTime}/removerjogador/{idJogador}")
 	public String removerJogadorDoTime(@PathVariable("idTime") Integer idTime, 
 			@PathVariable("idJogador") Integer idJogador) {
 		
 		timeService.delJogadorDoTime(idTime, idJogador);
 		
-		return "redirect:/times/"+idTime;
+		return "redirect:/times/detalhes/"+idTime;
 	}
 	
-	@RequestMapping(path="/excluir/{idTime}")
+	@GetMapping("/excluir/{idTime}")
 	public String exluirTime(@PathVariable ("idTime") Integer idTime) {
 		timeService.excluirTime(idTime);
 		return "redirect:/times/";

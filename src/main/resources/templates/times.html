@@ -1,39 +1,55 @@
 <!DOCTYPE html>
-<html 
-    xmlns="http://www.w3.org/1999/xhtml" 
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-	<link href="/webjars/materializecss/0.97.7/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link
+	th:href="@{/webjars/materialize/0.100.2/dist/css/materialize.min.css}"
+	type="text/css" rel="stylesheet" media="screen,projection" />
 
-	<title>FutManager</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+
+<link href="/css/style.css" type="text/css" rel="stylesheet"
+	media="screen,projection" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutManager</title>
 </head>
 
 <body>
-	<div class="container">
-		<div class="row valign-wrapper">
-			<div class="col s6">
-				<h4>Gerenciador de Times</h4>
-			</div>
-			<div class="col s6">
-				<a href="/jogadores/" class="valign btn-large waves-light teal right">Gerenciar jogadores</a>
-			</div>
+
+	<nav class="teal">
+		<div class="nav-wrapper container">
+			<ul class="left hide-on-med-and-down">
+				<li class="active"><a href="/times/">Times</a></li>
+				<li><a href="/jogadores/">Jogadores</a></li>
+			</ul>
 		</div>
-		
-		<div class="row">
-			<form action="/times/salvar" method="POST">
-				<div class="input-field col s8">
-					<input placeholder="Nome do Time" id="time" name="nomeTime" type="text" class="validate">
-					<label for="time">Nome do time</label>
+	</nav>
+
+	<div class="row grey lighten-2 panel-heading title-heading">
+		<h4 class="center-align">Gerenciador de Times</h4>
+	</div>
+
+	<div class="container">
+		<div class="row panel-heading">
+			<form method="POST" action="/times/salvar">
+				<div class="row">
+					<div class="input-field col s12">
+						<input placeholder="Nome do Time" id="time" type="text"
+							name="nomeTime" class="validate"> <label for="first_name">Nome
+							do Time</label>
+					</div>
+
 				</div>
-				<div class="col s4">
-					<button class="btn waves=effect waves-light" type="submit" name="action">Adicionar Time</button>
-				</div>
+
+				<button class="btn waves=effect waves-light" type="submit"
+					name="action">Adicionar Jogador</button>
 			</form>
 		</div>
-		
+
+
 		<div class="row">
 			<h5>Times Cadastrados</h5>
 			<table class="striped">
@@ -45,27 +61,51 @@
 						<th>Excluir Time</th>
 					</tr>
 				</thead>
-				
+
 				<tbody>
 					<tr th:each="time : ${times}">
 						<td th:text="${time.nome}"></td>
 						<td th:text="${time.jogadores.size()}">4</td>
+						<td><a class="waves-effect waves-teal btn-flat grey lighten-2"
+							th:href="@{${'/times/detalhes/'+time.id}}">Ver detalhes</a></td>
 						<td>
-							<a class="waves-effect waves-teal btn-flat" th:href="@{${'/times/'+time.id}}">Ver detalhes</a>
-						</td>
-						<td>
-							<a class="waves-effect waves-teal btn-flat" th:href="@{${'/times/excluir/'+time.id}}">X</a>
+							<!-- Modal Trigger --> <a
+							class="waves-effect waves-light btn-flat modal-trigger" href="#modal1"
+							target> <i class="large material-icons delete">delete</i>
+						</a> <!-- Modal Structure -->
+
+							<div id="modal1" class="modal">
+								<div class="modal-content">
+									<h4>Modal Header</h4>
+									<p>
+										deseja deleter o jogador <span
+											th:text="${time.nome +' do sistema?'}"></span>
+									</p>
+								</div>
+								<div class="modal-footer">
+									<a th:href="@{${'/times/excluir/'+time.id}}"
+										class="modal-action modal-close waves-effect waves-green btn-flat">continuar</a>
+									<a href="#"
+										class="modal-action modal-close waves-effect waves-green btn-flat">cancelar</a>
+
+								</div>
+							</div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-	
+
 	</div>
-	
-	
-	<script src="/webjars/jquery/2.2.4/jquery.js"></script>
-	<script src="/webjars/materializecss/0.97.7/js/materialize.js"></script>
-</body> 
+
+
+	<script th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+	<script
+		th:src="@{/webjars/materialize/0.100.2/dist/js/materialize.min.js}"></script>
+
+	<script>
+		$('.modal').modal();
+	</script>
+</body>
 
 </html>

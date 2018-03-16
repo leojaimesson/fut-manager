@@ -3,6 +3,7 @@ package br.ufc.npi.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufc.npi.bean.Jogador;
@@ -30,7 +31,7 @@ public class TimeService {
 	}
 	
 	public List<Time> getTodosTimes() {
-		return timeRepositorio.findAll();
+		return (List<Time>) timeRepositorio.findAll();
 	}
 	
 	public Time getTime(Integer id) {

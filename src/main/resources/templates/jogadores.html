@@ -4,7 +4,8 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-<link href="/webjars/materialize/0.100.2/dist/css/materialize.min.css"
+<link
+	th:href="@{/webjars/materialize/0.100.2/dist/css/materialize.min.css}"
 	type="text/css" rel="stylesheet" media="screen,projection" />
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -13,6 +14,7 @@
 <link href="/css/style.css" type="text/css" rel="stylesheet"
 	media="screen,projection" />
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>FutManager</title>
 </head>
@@ -31,7 +33,6 @@
 		<h4 class="center-align">Gerenciador de Jogadores</h4>
 	</div>
 	<div class="container">
-
 		<div class="row panel-heading">
 			<form method="POST" action="/jogadores/salvar">
 				<div class="row">
@@ -41,7 +42,7 @@
 							for="first_name">Nome do jogador</label>
 					</div>
 					<div class="input-field col s6">
-						<input placeholder="Idade do Jogador" id="idade" type="text"
+						<input placeholder="Idade do Jogador" id="idade" type="number"
 							name="idadeJogador" class="validate"> <label
 							for="first_name">Idade do jogador</label>
 					</div>
@@ -71,14 +72,17 @@
 
 						<td>
 							<!-- Modal Trigger --> <a
-							class="waves-effect waves-light btn modal-trigger" href="#modal1"
+							class="waves-effect waves-light btn-flat modal-trigger" href="#modal1"
 							target> <i class="large material-icons delete">delete</i>
 						</a> <!-- Modal Structure -->
 
 							<div id="modal1" class="modal">
 								<div class="modal-content">
 									<h4>Modal Header</h4>
-									<p>deseja deleter o jogador <span th:text="${jogador.nome +' do sistema?'}"></span></p>
+									<p>
+										deseja deleter o jogador <span
+											th:text="${jogador.nome +' do sistema?'}"></span>
+									</p>
 								</div>
 								<div class="modal-footer">
 									<a th:href="@{${'/jogadores/excluir/'+jogador.id}}"
@@ -94,11 +98,13 @@
 			</table>
 		</div>
 
+
 	</div>
 
 
-	<script src="/webjars/jquery/3.2.1/dist/jquery.min.js"></script>
-	<script src="/webjars/materialize/0.100.2/dist/js/materialize.min.js"></script>
+	<script th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+	<script
+		th:src="@{/webjars/materialize/0.100.2/dist/js/materialize.min.js}"></script>
 
 	<script>
 		$('.modal').modal();

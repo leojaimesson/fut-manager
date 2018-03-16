@@ -1,29 +1,42 @@
 <!DOCTYPE html>
 
-<html 
-	xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-	<title>FullManager</title>
-	<link href="/webjars/materializecss/0.97.7/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<title>FullManager</title>
+<link
+	th:href="@{/webjars/materialize/0.100.2/dist/css/materialize.min.css}"
+	type="text/css" rel="stylesheet" media="screen,projection" />
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+
+<link href="/css/style.css" type="text/css" rel="stylesheet"
+	media="screen,projection" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 	<div class="container">
 		<div class="row center">
 			<h1 class="header center green-text">FutManager</h1>
-			<h5 class="header col s12 light">Sistema de Controle de Times e Jogadores</h2>
+			<h5 class="header col s12 light">
+				Sistema de Controle de Times e Jogadores
+				</h2>
 		</div>
 		<div class="row center">
-			<a href="/times/" class="btn-large waves-effect waves-light teal">Gerenciar Times</a>
-	        <a href="/jogadores/" class="btn-large waves-effect waves-light teal">Gerenciar Jogadores</a>
+			<a href="/times/" class="btn-large waves-effect waves-light teal">Gerenciar
+				Times</a> <a href="/jogadores/"
+				class="btn-large waves-effect waves-light teal">Gerenciar
+				Jogadores</a>
 		</div>
-	</div>				
-	
-	<script src="/webjars/jquery/2.2.4/jquery.js"></script>
-	<script src="/webjars/materializecss/0.97.7/js/materialize.js"></script>	
+	</div>
+
+	<script th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+	<script
+		th:src="@{/webjars/materialize/0.100.2/dist/js/materialize.min.js}"></script>
 </body>
 
 </html>
